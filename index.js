@@ -27,7 +27,7 @@ function onWordEntered (text) {
 		askForWord();
 		return;
 	};
-	
+
 	console.log("\n---acceptable---\n");
 
 	word = text;
@@ -49,7 +49,7 @@ function onNumberEntered (text) {
 }
 
 function askForEncrypting () {
-	rl.question("Should I encrypt a text in the text.txt file?(Y/N)", onAnswer)
+	rl.question("Should I encrypt all the text in text.txt file? (Y/N)", onAnswer)
 }
 
 function onAnswer (key) {
