@@ -1,13 +1,11 @@
 var fs = require("fs");
 var readline = require('readline');
+var encryptor = require('./encryptor.js');
 
 var rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 })
-
-var file = fs.openSync('normal-text.txt', 'r');
-
 
 var number = 0;
 var word = "";
@@ -25,7 +23,7 @@ function askForNumber () {
 }
 
 function onWordEntered (text) {
-	if (!checkText(text)) {
+	if (!checkTextForNull(text)) {
 		askForWord();
 		return;
 	};
@@ -34,32 +32,53 @@ function onWordEntered (text) {
 
 	word = text;
 
-	rl.close();
-
 	askForNumber();
 }
 
 function onNumberEntered (text) {
-	if (!checkText(text)) {
+	if (!checkTextForNull(text)) {
 		askForNumber();
 		return;
 	};
 
 	console.log("\n---acceptable---\n");
-	
+
 	number = text;
-	
-	rl.close();
+
+	askForEncrypting();
 }
 
-function checkText (text) {
+function askForEncrypting () {
+	rl.question("Should I encrypt a text in the text.txt file?(Y/N)", onAnswer)
+}
+
+function onAnswer (key) {
+	if (key == 'Y' || key == 'y') {
+		startEncrypting();
+	} else {
+		rl.close();
+	}
+}
+
+function startEncrypting () {
+	var text = fs.openSync('text.txt', 'r'),
+		encryptedText = "";
+	
+	try {
+		encryptedText = encryptor.encrypt(number, word, text);
+	} catch (err) {
+		console.log(err + "\n");
+		askForWord();
+	}
+}
+
+function checkTextForNull (text) {
 	if (!text.trim()) {
 		console.log("Enter correct data!! \n");
 		return false;
 	}
 	return true;
 }
-
 
 
 initialize();
