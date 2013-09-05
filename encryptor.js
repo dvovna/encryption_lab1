@@ -18,38 +18,52 @@ function encrypt (number, word, text) {
 	removeWordCodesFromAplh(cript, wordCodes);
 
 	cript = insertWordToArray(cript, wordCodes, number);
-
 	encryptedText = getEncryptedText(text, cript, alphabet);
 
 	console.log("Encrypted", encryptedText);
-	// console.log(alphabet);
 
 	return encryptedText;
 }
 
 function getEncryptedText (text, cript, alphabet) {
-	var encriptedText = '';
-
 	for (var i in text) {
-		var code = alphabet.indexOf(text[i].charCodeAt(0));
-		console.log(code);
-		if (!code) { console.log('false');return; }
-		
-		text = text.replace(text[i], String.fromCharCode(cript[code]));
-		console.log(text.replace(text[i], String.fromCharCode(cript[code])));
-	}
+		var key = text[i],
+			charCode = key.charCodeAt(0),
+			index = 0,
+			isUpper = false;
 
+		if (charCode >= 1040 && charCode <= 1071) {
+			key.toLowerCase();
+			charCode = key.charCodeAt(0);
+			isUpper = true;
+		}
+
+		index = alphabet.indexOf(charCode);
+
+		if (index >= 0) {
+			text = text.replace(key, getChar(cript[index], isUpper));
+		}
+	}
 	return text;
 }
 
-function insertWordToArray (array, codes, index) {
-	var ind = '';
+
+function getChar (code, isUpper) {
+	var char = String.fromCharCode(code);
+
+	char = isUpper ? char.toUpperCase() : char;
 	
-	array = codes.concat(array);
+	return char;
+}
 
-	ind = array.length - index;
+function insertWordToArray (array, word, index) {
+	var ind = '';
 
-	head = array.splice(ind, codes.length);
+	array = word.concat(array);
+
+	ind = array.length - index + 1;
+
+	head = array.splice(ind, word.length);
 
 	array = head.concat(array);
 
@@ -60,14 +74,13 @@ function removeWordCodesFromAplh (mass, codes) {
 	var index = 0;
 	for (var i in codes) {
 		index = mass.indexOf(codes[i]);
-
 		mass.splice(index, 1);
 	}
 }
 
 function getAlphabetCodes (start, end) {
 	var mass = [];
-	for (var i = start.charCodeAt(0); i < end.charCodeAt(0); i++) {
+	for (var i = start.charCodeAt(0); i <= end.charCodeAt(0); i++) {
 		mass.push(i);
 	}
 	return mass;
@@ -75,12 +88,10 @@ function getAlphabetCodes (start, end) {
 
 function getCodesMass (word) {
 	var mass = [];
-
 	for (var index in word) {
 		mass.push(word.charCodeAt(index));
 	}
-
 	return mass;
 }
 
-encrypt(2, "фыв", "цук");	
+encrypt(3, "аяв", "А бв");
