@@ -49,11 +49,11 @@ function onNumberEntered (text) {
 }
 
 function askForEncrypting () {
-	rl.question("Should I encrypt all the text in text.txt file? (Y/N)", onAnswer)
+	startEncrypting();
 }
 
 function onAnswer (key) {
-	if (key == 'Y' || key == 'y') {
+	if (key.toLowerCase() == 'y') {
 		startEncrypting();
 	} else {
 		rl.close();
@@ -61,15 +61,19 @@ function onAnswer (key) {
 }
 
 function startEncrypting () {
-	var text = fs.openSync('text.txt', 'r'),
-		encryptedText = "";
-	
-	try {
-		encryptedText = encryptor.encrypt(number, word, text);
-	} catch (err) {
-		console.log(err + "\n");
-		askForWord();
-	}
+	fs.readFile('text.txt', 'utf8',
+		function (err, data) {
+			if (err) { return console.log(err); }
+			encryptedText = encryptor.encrypt(number, word, data);
+			writeOutputFile(encryptedText);
+		}
+	);
+}
+
+function writeOutputFile (data) {
+	fs.writeFile('encrypted.txt', data);
+	console.log('DONE');
+	rl.close();
 }
 
 function checkTextForNull (text) {
@@ -79,6 +83,5 @@ function checkTextForNull (text) {
 	}
 	return true;
 }
-
 
 initialize();

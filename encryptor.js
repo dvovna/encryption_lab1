@@ -20,12 +20,11 @@ function encrypt (number, word, text) {
 	cript = insertWordToArray(cript, wordCodes, number);
 	encryptedText = getEncryptedText(text, cript, alphabet);
 
-	console.log("Encrypted", encryptedText);
-
 	return encryptedText;
 }
 
 function getEncryptedText (text, cript, alphabet) {
+	var newText = '';
 	for (var i in text) {
 		var key = text[i],
 			charCode = key.charCodeAt(0),
@@ -33,7 +32,7 @@ function getEncryptedText (text, cript, alphabet) {
 			isUpper = false;
 
 		if (charCode >= 1040 && charCode <= 1071) {
-			key.toLowerCase();
+			key = key.toLowerCase();
 			charCode = key.charCodeAt(0);
 			isUpper = true;
 		}
@@ -41,19 +40,21 @@ function getEncryptedText (text, cript, alphabet) {
 		index = alphabet.indexOf(charCode);
 
 		if (index >= 0) {
-			text = text.replace(key, getChar(cript[index], isUpper));
+			newText += getChar(cript[index], isUpper);
+		} else {
+			newText += getChar(charCode, isUpper);
 		}
 	}
-	return text;
+	return newText;
 }
 
 
 function getChar (code, isUpper) {
-	var char = String.fromCharCode(code);
+	var charr = String.fromCharCode(code);
 
-	char = isUpper ? char.toUpperCase() : char;
-	
-	return char;
+	charr = isUpper ? charr.toUpperCase() : charr;
+
+	return charr;
 }
 
 function insertWordToArray (array, word, index) {
@@ -93,5 +94,3 @@ function getCodesMass (word) {
 	}
 	return mass;
 }
-
-encrypt(3, "аяв", "А бв");
