@@ -1,14 +1,8 @@
-/*
-Should accept a word and a number, 
-should generate a cipher
-*/
-exports.encrypt = encrypt;
-
 var criptCreator = require('./cript-creator.js');
+exports.decript = decrypt;
 
-
-function encrypt (number, word, text) {
-	var encryptedText = "",
+function decrypt (word, number, text) {
+	var decryptedText = "",
 		alphabet = [],
 		wordCodes = [],
 		cript;
@@ -17,12 +11,12 @@ function encrypt (number, word, text) {
 
 	cript = criptCreator.getCript(alphabet, word, number);
 
-	encryptedText = getEncryptedText(text, cript, alphabet);
+	decryptedText = getDecryptedText(text, cript, alphabet);
 
-	return encryptedText;
+	return decryptedText;
 }
 
-function getEncryptedText (text, cript, alphabet) {
+function getDecryptedText (text, cript, alphabet) {
 	var newText = '';
 	for (var i in text) {
 		var key = text[i],
@@ -36,10 +30,10 @@ function getEncryptedText (text, cript, alphabet) {
 			isUpper = true;
 		}
 
-		index = alphabet.indexOf(charCode);
+		index = cript.indexOf(charCode);
 
 		if (index >= 0) {
-			newText += getChar(cript[index], isUpper);
+			newText += getChar(alphabet[index], isUpper);
 		} else {
 			newText += getChar(charCode, isUpper);
 		}

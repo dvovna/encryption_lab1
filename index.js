@@ -1,6 +1,7 @@
 var fs = require("fs");
 var readline = require('readline');
 var encryptor = require('./encryptor.js');
+var decriptor = require('./decriptor.js');
 
 var rl = readline.createInterface({
   input: process.stdin,
@@ -45,10 +46,6 @@ function onNumberEntered (text) {
 
 	number = text;
 
-	askForEncrypting();
-}
-
-function askForEncrypting () {
 	startEncrypting();
 }
 
@@ -72,6 +69,31 @@ function startEncrypting () {
 
 function writeOutputFile (data) {
 	fs.writeFile('encrypted.txt', data);
+	console.log('DONE');
+
+	askForDecription();
+}
+
+function askForDecription () {
+	rl.question("Decript?", onDectiptionAnswer);	
+}
+
+function onDectiptionAnswer (text) {
+	startDecription();
+}
+function startDecription () {
+	var decryptedText;
+	fs.readFile('encrypted.txt', 'utf8',
+		function (err, data) {
+			if (err) { return console.log(err); }
+			decryptedText = decriptor.decript(word, number, data);
+			console.log(decryptedText);
+			writeDecriptedFile(decryptedText);
+		}
+	);
+}
+function writeDecriptedFile (data) {
+	fs.writeFile('decrypted.txt', data);
 	console.log('DONE');
 	rl.close();
 }
