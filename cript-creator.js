@@ -23,7 +23,6 @@ function getCodesMass (word) {
 	return mass;
 }
 
-
 function removeWordCodesFromAplh (mass, codes) {
 	var index = 0;
 	for (var i in codes) {

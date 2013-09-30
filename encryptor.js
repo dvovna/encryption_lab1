@@ -6,7 +6,6 @@ exports.encrypt = encrypt;
 
 var criptCreator = require('./cript-creator.js');
 
-
 function encrypt (number, word, text) {
 	var encryptedText = "",
 		alphabet = [],
@@ -17,8 +16,8 @@ function encrypt (number, word, text) {
 
 	cript = criptCreator.getCript(alphabet, word, number);
 
-	encryptedText = getEncryptedText(text, cript, alphabet);
-
+	encryptedText = getEncryptedText(text, cript, getAlphabetCodes('а', 'я'));
+	console.log(encryptedText);
 	return encryptedText;
 }
 
@@ -35,7 +34,7 @@ function getEncryptedText (text, cript, alphabet) {
 			charCode = key.charCodeAt(0);
 			isUpper = true;
 		}
-
+		console.log(key, alphabet.indexOf(charCode));
 		index = alphabet.indexOf(charCode);
 
 		if (index >= 0) {

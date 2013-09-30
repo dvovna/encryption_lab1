@@ -1,6 +1,8 @@
 var criptCreator = require('./cript-creator.js');
 exports.decript = decrypt;
 
+// decrypt("я", 2, 'юяа бвг');
+
 function decrypt (word, number, text) {
 	var decryptedText = "",
 		alphabet = [],
@@ -11,7 +13,7 @@ function decrypt (word, number, text) {
 
 	cript = criptCreator.getCript(alphabet, word, number);
 
-	decryptedText = getDecryptedText(text, cript, alphabet);
+	decryptedText = getDecryptedText(text, cript, getAlphabetCodes('а', 'я'));
 
 	return decryptedText;
 }
